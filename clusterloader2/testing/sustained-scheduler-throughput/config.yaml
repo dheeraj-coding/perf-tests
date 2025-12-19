@@ -4,6 +4,7 @@
 {{$schedulerCreateQps:= DefaultParam .CL2_SCHEDULER_CREATE_QPS 1600}}
 {{$schedulerSteadyQps:= DefaultParam .CL2_SCHEDULER_STEADY_QPS 167}}
 {{$schedulerThroughputThreshold := DefaultParam .CL2_SCHEDULER_THROUGHPUT_THRESHOLD 150 }}
+{{$totalSchedulerThroughputPods := DefaultParam .CL2_SCHEDULER_THROUGHPUT_PODS 5000}}
 
 name: continuous-scheduler-churn
 
@@ -35,6 +36,9 @@ steps:
 - name: Run density module for sustained churn
   module:
     path: density.yaml # Assumes density.yaml is in the same directory
+    params:
+      CL2_SCHEDULER_THROUGHPUT_PODS: {{$totalSchedulerThroughputPods}}
+
 
 - name: Collect final throughput measurements
   measurements:
